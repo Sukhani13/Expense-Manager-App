@@ -13,7 +13,7 @@ class TransactionList extends StatelessWidget {
       children: transactions.map((tx) {
         return Expanded(
           child: ListView(
-            shrinkWrap: true,
+            // shrinkWrap: true,
             physics: ClampingScrollPhysics(),
             children: <Widget>[
               Card(
