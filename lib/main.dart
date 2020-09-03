@@ -9,7 +9,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "Expens Manager",
+      title: "Expense Manager",
+      theme: ThemeData(
+        primarySwatch: Colors.purple,
+        accentColor: Colors.amber[700],
+      ),
       home: MyHomePage(),
     );
   }
@@ -46,21 +50,24 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _userTransactions.add(newTx);
     });
+
+    Navigator.of(context).pop();
   }
 
   void _startAddNewTransaction(BuildContext ctx) {
     showModalBottomSheet(
-        context: ctx,
-        builder: (_) {
-          return NewTransaction(_addNewTransaction);
-        });
+      context: ctx,
+      builder: (_) {
+        return NewTransaction(_addNewTransaction);
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Expens Manager"),
+        title: Text("Expense Manager"),
         actions: [
           IconButton(
             icon: Icon(Icons.add),
@@ -68,19 +75,21 @@ class _MyHomePageState extends State<MyHomePage> {
           )
         ],
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            width: double.infinity,
-            padding: EdgeInsets.all(10),
-            child: Card(
-              color: Colors.blue,
-              child: Text("Chart"),
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              width: double.infinity,
+              padding: EdgeInsets.all(10),
+              child: Card(
+                color: Colors.blue,
+                child: Text("Chart"),
+              ),
             ),
-          ),
-          TransactionList(_userTransactions),
-        ],
+            TransactionList(_userTransactions),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
