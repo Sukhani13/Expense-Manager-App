@@ -14,6 +14,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.purple,
         accentColor: Colors.amber[700],
+        textTheme: TextTheme().copyWith(
+          button: TextStyle(color: Colors.white),
+        ),
       ),
       home: MyHomePage(),
     );
