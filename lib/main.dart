@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
           button: TextStyle(color: Colors.white),
         ),
       ),
+      debugShowCheckedModeBanner: false,
       home: MyHomePage(),
     );
   }
@@ -29,20 +30,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<Transaction> _userTransactions = [
-    Transaction(
-      id: "t1",
-      title: "New Shoes",
-      amount: 2000,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: "t2",
-      title: "Fruits",
-      amount: 1200.05,
-      date: DateTime.now(),
-    ),
-  ];
+  List<Transaction> _userTransactions = [];
 
   List<Transaction> get _recentTransactions {
     return _userTransactions.where((tx) {
@@ -54,17 +42,16 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
-  void _addNewTransaction(String txTitle, double txAmount) {
+  void _addNewTransaction(
+      String txTitle, double txAmount, DateTime chosenDate) {
     final newTx = Transaction(
         title: txTitle,
         amount: txAmount,
-        date: DateTime.now(),
+        date: chosenDate,
         id: DateTime.now().toString());
-
     setState(() {
       _userTransactions.add(newTx);
     });
-
     Navigator.of(context).pop();
   }
 
@@ -75,6 +62,12 @@ class _MyHomePageState extends State<MyHomePage> {
         return NewTransaction(_addNewTransaction);
       },
     );
+  }
+
+  void _deleteTransaction(String id) {
+    setState(() {
+      _userTransactions.removeWhere((tx) => tx.id == id);
+    });
   }
 
   @override
@@ -94,7 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Chart(_recentTransactions),
-            TransactionList(_userTransactions),
+            TransactionList(_userTransactions, _deleteTransaction),
           ],
         ),
       ),
